@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use ThisIsDevelopment\GitManager\Contracts\GitBranchInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitFileInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitOwnerInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
@@ -14,30 +15,11 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GitLabRepository extends GitRepository
 {
-    /**
-     * @var GitLabClient
-     */
-    protected $client;
-
-    /**
-     * @var GitLabPlatform
-     */
-    protected $platform;
-
-    /**
-     * @var array
-     */
-    protected $groupAccess;
-
-    /**
-     * @var string
-     */
-    protected $ownerType;
-
-    /**
-     * @var int
-     */
-    protected $ownerId;
+    protected GitLabClient $client;
+    protected GitPlatformInterface $platform;
+    protected array $groupAccess;
+    protected string $ownerType;
+    protected int $ownerId;
 
     public function __construct(GitLabClient $client, GitLabPlatform $platform, array $properties)
     {

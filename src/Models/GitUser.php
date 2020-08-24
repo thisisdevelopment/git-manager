@@ -8,7 +8,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
 
 abstract class GitUser extends AbstractGitModel implements GitUserInterface
 {
-    protected static $properties = [
+    protected static array $properties = [
         'id',
         'name',
         'username',
@@ -17,17 +17,13 @@ abstract class GitUser extends AbstractGitModel implements GitUserInterface
         'created_at',
     ];
 
-    protected static $updatable = [
-        'name'        => true,
-        'username'    => true,
-        'email'       => true,
+    protected static array $updatable = [
+        'name' => true,
+        'username' => true,
+        'email' => true,
         'description' => false,
     ];
-
-    /**
-     * @var GitPlatformInterface
-     */
-    protected $platform;
+    protected GitPlatformInterface $platform;
 
     public function __construct(GitPlatform $platform, array $properties)
     {

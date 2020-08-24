@@ -8,7 +8,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitRepositoryInterface;
 
 abstract class GitPlatform extends AbstractGitModel implements GitPlatformInterface
 {
-    protected static $properties = [
+    protected static array $properties = [
         'name',
         'defaultTeamNamespace',
         'defaultRepoNamespace',

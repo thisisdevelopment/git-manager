@@ -7,11 +7,9 @@ use RuntimeException;
 
 abstract class AbstractGitModel
 {
-    protected static $properties = [];
-
-    protected static $updatable = [];
-
-    protected $data = [];
+    protected static array $properties = [];
+    protected static array $updatable = [];
+    protected array $data = [];
 
     protected function hydrate(array $data = []): void
     {

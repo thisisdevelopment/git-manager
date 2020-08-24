@@ -11,8 +11,7 @@ use ThisIsDevelopment\GitManager\Models\GitPlatform;
 
 class GiteaPlatform extends GitPlatform
 {
-    /** @var GiteaClient */
-    protected $client;
+    protected GiteaClient $client;
 
     public function __construct(array $config)
     {
@@ -83,9 +82,7 @@ class GiteaPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAll(GiteaTeam::class, "/orgs/{$namespace}/teams", $this),
-            static function (GitTeamInterface $team) {
-                return ($team->name !== 'Owners');
-            }
+            static fn(GitTeamInterface $team) => ($team->name !== 'Owners')
         );
     }
 
@@ -93,7 +90,7 @@ class GiteaPlatform extends GitPlatform
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
         if (!is_numeric($idOrName) && $namespace !== '') {
-            $idOrName = $namespace . '/' . $idOrName;
+            $idOrName = "{$namespace}/{$idOrName}";
         }
 
         //TODO: teams are only retrievable by id, not by name/path
@@ -109,9 +106,9 @@ class GiteaPlatform extends GitPlatform
 
     public function splitPath($path)
     {
-        if (Str::startsWith($path, $this->defaultRepoNamespace . '/')) {
+        if (Str::startsWith($path, "{$this->defaultRepoNamespace}/")) {
             $res = [$this->defaultRepoNamespace, substr($path, strlen($this->defaultRepoNamespace) + 1)];
-        } elseif (Str::startsWith($path, $this->defaultTeamNamespace . '/')) {
+        } elseif (Str::startsWith($path, "{$this->defaultTeamNamespace}/")) {
             $res = [$this->defaultTeamNamespace, substr($path, strlen($this->defaultTeamNamespace) + 1)];
         } else {
             $res = ['', $path];

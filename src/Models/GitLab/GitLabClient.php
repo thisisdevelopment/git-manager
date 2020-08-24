@@ -34,7 +34,7 @@ class GitLabClient extends Client
     public const VISIBILITY_INTERNAL = 'internal';
     public const VISIBILITY_PUBLIC = 'public';
 
-    protected $gitlabHttpClientBuilder;
+    protected Builder $gitlabHttpClientBuilder;
 
     public function __construct()
     {
@@ -60,9 +60,7 @@ class GitLabClient extends Client
             return $pager->fetchAll($this->api($api), $method, $methodParameters);
         } catch (ExceptionInterface $e) {
             throw new GitException(
-                "Unable to fetch all data for {$api}->{$method}: " . $e->getMessage(),
-                $e->getCode(),
-                $e
+                "Unable to fetch all data for {$api}->{$method}: {$e->getMessage()}", $e->getCode(), $e
             );
         }
     }
@@ -92,7 +90,7 @@ class GitLabClient extends Client
         try {
             $data = $api->create(...$params);
         } catch (ExceptionInterface $e) {
-            throw new GitException("Failure calling {$type}->create: " . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Failure calling {$type}->create: {$e->getMessage()}", $e->getCode(), $e);
         }
 
         return $this->makeModelForType($type, $data, $parent);

@@ -11,15 +11,8 @@ use ThisIsDevelopment\GitManager\Models\GitTeam;
 
 class GitLabTeam extends GitTeam
 {
-    /**
-     * @var GitLabClient
-     */
-    protected $client;
-
-    /**
-     * @var GitLabPlatform
-     */
-    protected $platform;
+    protected GitLabClient $client;
+    protected GitLabPlatform $platform;
 
     protected $visibility = GitLabClient::VISIBILITY_PRIVATE;
 

@@ -15,8 +15,7 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GitLabPlatform extends GitPlatform
 {
-    /** @var GitLabClient */
-    protected $client;
+    protected GitLabClient $client;
 
     public function __construct(array $config)
     {
@@ -49,24 +48,23 @@ class GitLabPlatform extends GitPlatform
     {
         $namespace = $namespace ?? $this->defaultRepoNamespace;
 
-        return collect($this->client->getAllModelInstances(GitLabClient::TYPE_PROJECTS, $this))
-            ->filter(static function ($repo) use ($namespace) {
-                return $repo->namespace === $namespace;
-            })
-            ->all();
+        return array_filter(
+            $this->client->getAllModelInstances(GitLabClient::TYPE_PROJECTS, $this),
+            static fn($repo) => $repo->namespace === $namespace
+        );
     }
 
     public function getRepository(string $idOrName, string $namespace = null): GitRepositoryInterface
     {
         $namespace = $namespace ?? $this->defaultRepoNamespace;
         if (!is_numeric($idOrName) && $namespace !== '') {
-            $idOrName = $this->defaultRepoNamespace . '/' . $idOrName;
+            $idOrName = $this->defaultRepoNamespace.'/'.$idOrName;
         }
 
         try {
             return $this->client->getModelInstance(GitLabClient::TYPE_PROJECTS, $idOrName, $this);
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to get repository ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException('Unable to get repository '.$e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -80,7 +78,7 @@ class GitLabPlatform extends GitPlatform
         try {
             GitRepository::validateAdd($properties);
 
-            $path = ltrim($namespace . '/' . $properties['name'], '/');
+            $path = ltrim("{$namespace}/{$properties['name']}", '/');
             $prefix = dirname($path);
             $name = basename($path);
             $parent = $this->findOrCreateGroup($prefix);
@@ -107,7 +105,7 @@ class GitLabPlatform extends GitPlatform
 
             return $repo;
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to add repository: ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Unable to add repository: {$e->getMessage()}", $e->getCode(), $e);
         } finally {
             $this->client->sudo(null);
         }
@@ -129,7 +127,7 @@ class GitLabPlatform extends GitPlatform
                 [$filter]
             );
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to get userList: ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Unable to get userList: {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 
@@ -159,24 +157,23 @@ class GitLabPlatform extends GitPlatform
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
 
-        return collect($this->client->getAllModelInstances(GitLabClient::TYPE_GROUPS, $this))
-            ->filter(static function ($team) use ($namespace) {
-                return $team->namespace === $namespace;
-            })
-            ->all();
+        return array_filter(
+            $this->client->getAllModelInstances(GitLabClient::TYPE_GROUPS, $this),
+            fn($team) => $team->namespace === $namespace
+        );
     }
 
     public function getTeam(string $teamId, string $namespace = null): GitTeamInterface
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
         if (!is_numeric($teamId) && $namespace !== '') {
-            $teamId = $namespace . '/' . $teamId;
+            $teamId = "{$namespace}/{$teamId}";
         }
 
         try {
             return $this->client->getModelInstance(GitLabClient::TYPE_GROUPS, $teamId, $this);
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to get team: ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Unable to get team: {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 
@@ -186,7 +183,7 @@ class GitLabPlatform extends GitPlatform
             $namespace = $properties['namespace'] ?? $this->defaultTeamNamespace;
             unset($properties['namespace']);
 
-            $path = ltrim($namespace . '/' . $properties['name'], '/');
+            $path = ltrim("{$namespace}/{$properties['name']}", '/');
             $prefix = dirname($path);
             $name = basename($path);
             $properties['name'] = $name;
@@ -209,7 +206,7 @@ class GitLabPlatform extends GitPlatform
                 $this
             );
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to addTeam: ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Unable to addTeam: {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 
@@ -237,11 +234,11 @@ class GitLabPlatform extends GitPlatform
 
     public function splitPath(string $path): array
     {
-        if (Str::startsWith($path, $this->defaultRepoNamespace . '/')) {
+        if (Str::startsWith($path, "{$this->defaultRepoNamespace}/")) {
             return [$this->defaultRepoNamespace, substr($path, strlen($this->defaultRepoNamespace) + 1)];
         }
 
-        if (Str::startsWith($path, $this->defaultTeamNamespace . '/')) {
+        if (Str::startsWith($path, "{$this->defaultTeamNamespace}/")) {
             return [$this->defaultTeamNamespace, substr($path, strlen($this->defaultTeamNamespace) + 1)];
         }
 

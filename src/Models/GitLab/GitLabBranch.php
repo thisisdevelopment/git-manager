@@ -9,10 +9,7 @@ use ThisIsDevelopment\GitManager\Models\GitBranch;
 
 class GitLabBranch extends GitBranch
 {
-    /**
-     * @var GitLabClient
-     */
-    protected $client;
+    protected GitLabClient $client;
 
     public function __construct(GitLabClient $client, GitLabRepository $repository, array $properties)
     {
@@ -25,7 +22,7 @@ class GitLabBranch extends GitBranch
         try {
             $this->client->repositories()->deleteBranch($this->repository->id, $this->name);
         } catch (ExceptionInterface $e) {
-            throw new GitException('Unable to remove branch: ' . $e->getMessage(), $e->getCode(), $e);
+            throw new GitException("Unable to remove branch: {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 
@@ -45,7 +42,7 @@ class GitLabBranch extends GitBranch
                     'exists'   => false,
                 ];
             } else {
-                throw new GitException('Unable to get file "' . $file . '" ' . $e->getMessage(), $e->getCode(), $e);
+                throw new GitException("Unable to get file \"{$file}\" {$e->getMessage()}", $e->getCode(), $e);
             }
         }
 

@@ -8,20 +8,9 @@ use ThisIsDevelopment\GitManager\Models\GitFile;
 
 class GitLabFile extends GitFile
 {
-    /**
-     * @var GitLabClient
-     */
-    protected $client;
-
-    /**
-     * @var GitLabBranch
-     */
-    protected $branch;
-
-    /**
-     * @var GitLabRepository
-     */
-    protected $repository;
+    protected GitLabClient $client;
+    protected GitLabBranch $branch;
+    protected GitLabRepository $repository;
 
     public function __construct(GitLabClient $client, GitLabBranch $branch, array $properties)
     {
@@ -46,7 +35,7 @@ class GitLabFile extends GitFile
             }
         } catch (ExceptionInterface $e) {
             throw new GitException(
-                "Unable to " . ($this->exists ? 'update' : 'create') . " file '{$this->file}': {$e->getMessage()}",
+                sprintf("Unable to %s file '{$this->file}': {$e->getMessage()}", $this->exists ? 'update' : 'create'),
                 $e->getCode(),
                 $e
             );

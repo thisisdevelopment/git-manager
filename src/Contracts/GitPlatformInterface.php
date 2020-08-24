@@ -17,7 +17,7 @@ interface GitPlatformInterface
      * @param string|null $namespace
      * @return GitRepositoryInterface[]
      */
-    public function getRepositoryList(string $namespace = null): array;
+    public function getRepositoryList(?string $namespace = null): array;
 
     public function getRepository(string $idOrName, string $namespace = null): GitRepositoryInterface;
 
@@ -39,7 +39,7 @@ interface GitPlatformInterface
      * @param string|null $namespace
      * @return GitTeamInterface[]
      */
-    public function getTeamList(string $namespace = null): array;
+    public function getTeamList(?string $namespace = null): array;
 
     public function getTeam(string $idOrName, string $namespace = null): GitTeamInterface;
 

@@ -5,20 +5,14 @@ namespace ThisIsDevelopment\GitManager\Models\Gitea;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\RequestOptions;
-use Illuminate\Support\Facades\Log;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
 
 class GiteaClient
 {
-    /** @var ClientInterface */
-    protected $httpClient;
-
-    protected $token = '';
-
-    protected $url = '';
-
-    /** @var string|null */
-    protected $sudo = null;
+    protected ClientInterface $httpClient;
+    protected string $token = '';
+    protected string $url = '';
+    protected ?string $sudo = null;
 
     protected function call($method, $url, $body = null)
     {
@@ -27,7 +21,7 @@ class GiteaClient
                 'base_uri' => $this->url,
                 'headers'  => [
                     'Accept'        => 'application/json',
-                    'Authorization' => 'token ' . $this->token
+                    'Authorization' => "token {$this->token}"
                 ]
             ]);
         }
@@ -77,20 +71,12 @@ class GiteaClient
 
     public function getAll($class, $url, $parent)
     {
-        return collect($this->call('GET', $url))
-            ->map(function ($data) use ($parent, $class) {
-                return new $class($this, $parent, $data);
-            })
-            ->all();
+        return array_map(fn($data) => new $class($this, $parent, $data), $this->call('GET', $url));
     }
 
     public function getFirst($class, $url, $parent)
     {
-        return collect($this->call('GET', $url)['data'])
-            ->map(function ($data) use ($parent, $class) {
-                return new $class($this, $parent, $data);
-            })
-            ->first();
+        return array_map(fn($data) => new $class($this, $parent, $data), $this->call('GET', $url)['data']);
     }
 
     public function get($class, $url, $parent)

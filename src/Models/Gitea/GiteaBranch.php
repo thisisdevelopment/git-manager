@@ -7,10 +7,7 @@ use ThisIsDevelopment\GitManager\Models\GitBranch;
 
 class GiteaBranch extends GitBranch
 {
-    /**
-     * @var GiteaClient
-     */
-    protected $client;
+    protected GiteaClient $client;
 
     public function __construct(GiteaClient $client, GiteaRepository $repository, array $properties)
     {

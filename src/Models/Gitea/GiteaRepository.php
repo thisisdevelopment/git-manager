@@ -5,6 +5,7 @@ namespace ThisIsDevelopment\GitManager\Models\Gitea;
 use ThisIsDevelopment\GitManager\Contracts\GitBranchInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitFileInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitOwnerInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
@@ -12,11 +13,8 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GiteaRepository extends GitRepository
 {
-    /** @var GiteaClient */
-    protected $client;
-
-    /** @var GiteaPlatform */
-    protected $platform;
+    protected GiteaClient $client;
+    protected GitPlatformInterface $platform;
 
     public function __construct(GiteaClient $client, GiteaPlatform $platform, array $properties)
     {
@@ -29,8 +27,7 @@ class GiteaRepository extends GitRepository
         $properties['clone_url_http'] = $properties['clone_url'];
         $properties['clone_url_ssh'] = $properties['ssh_url'];
 
-        [$properties['namespace'], $properties['name']] =
-            $platform->splitPath($properties['full_name']);
+        [$properties['namespace'], $properties['name']] = $platform->splitPath($properties['full_name']);
 
         return $properties;
     }
@@ -127,11 +124,7 @@ class GiteaRepository extends GitRepository
                 return new GiteaBranch($this->client, $this, ['name' => $id]);
             }
 
-            throw new GitException(
-                "Unable to get branch ({$id}): {$e->getMessage()}",
-                $e->getCode(),
-                $e
-            );
+            throw new GitException("Unable to get branch ({$id}): {$e->getMessage()}", $e->getCode(), $e);
         }
     }
 
