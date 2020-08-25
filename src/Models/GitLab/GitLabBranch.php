@@ -16,6 +16,8 @@ class GitLabBranch extends GitBranch
 
     public function __construct(GitLabClient $client, GitLabRepository $repository, array $properties)
     {
+        $properties['commitHash'] = $properties['commit']['id'];
+
         $this->client = $client;
         parent::__construct($repository, $properties);
     }

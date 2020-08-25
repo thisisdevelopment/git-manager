@@ -12,6 +12,7 @@ abstract class GitBranch extends AbstractGitModel implements GitBranchInterface
      */
     protected static $properties = [
         'name',
+        'commitHash'
     ];
     /**
      * @var array|bool[]

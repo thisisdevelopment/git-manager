@@ -14,6 +14,8 @@ class GiteaBranch extends GitBranch
 
     public function __construct(GiteaClient $client, GiteaRepository $repository, array $properties)
     {
+        $properties['commitHash'] = $properties['commit']['id'];
+
         $this->client = $client;
         parent::__construct($repository, $properties);
     }
