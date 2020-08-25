@@ -8,6 +8,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitBranchInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitFileInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitOwnerInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
@@ -71,7 +72,7 @@ class GitLabRepository extends GitRepository
     public function grantTeamAccess(GitTeamInterface $team): void
     {
         $params = [
-            'group_id'     => $team->id,
+            'group_id' => $team->id,
             'group_access' => GitLabClient::ACCESS_LEVEL_DEVELOPER
         ];
 
@@ -224,8 +225,8 @@ class GitLabRepository extends GitRepository
     {
         try {
             $this->client->projects()->update($this->id, [
-                'name'        => $this->name,
-                'path'        => Str::slug($this->name),
+                'name' => $this->name,
+                'path' => Str::slug($this->name),
                 'description' => $this->description,
             ]);
         } catch (ExceptionInterface $e) {
@@ -345,5 +346,15 @@ class GitLabRepository extends GitRepository
                 $e
             );
         }
+    }
+
+    public function getTagList(): array
+    {
+        return $this->client->tags()->all($this->id);
+    }
+
+    public function getTag(string $name): GitTagInterface
+    {
+        return $this->client->tags()->show($this->id, $name);
     }
 }

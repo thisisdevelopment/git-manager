@@ -6,6 +6,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitBranchInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitFileInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitOwnerInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
@@ -147,5 +148,21 @@ class GiteaRepository extends GitRepository
     public function runCICD(string $commitRef, array $variables = []): void
     {
         // TODO: Implement runCICD() method.
+    }
+
+    public function getTagList(): array
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        return $this->client->getAll(GiteaTag::class, "/repos/{$owner}/{$repo}/tags", $this);
+    }
+
+    public function getTag(string $name): GitTagInterface
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        return $this->client->get(GiteaTag::class, "/repos/{$owner}/{$repo}/git/refs/tags/{$name}", $this);
     }
 }
