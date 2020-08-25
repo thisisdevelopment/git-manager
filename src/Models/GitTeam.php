@@ -8,17 +8,26 @@ use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 
 abstract class GitTeam extends AbstractGitModel implements GitTeamInterface
 {
-    protected static array $properties = [
+    /**
+     * @var array|string[]
+     */
+    protected static $properties = [
         'id',
         'name',
         'description',
         'namespace',
     ];
-    protected static array $updatable = [
+    /**
+     * @var array|bool[]
+     */
+    protected static $updatable = [
         'name' => true,
         'description' => false,
     ];
-    protected GitPlatformInterface $platform;
+    /**
+     * @var GitPlatformInterface
+     */
+    protected $platform;
 
     public function __construct(GitPlatformInterface $platform, array $properties)
     {

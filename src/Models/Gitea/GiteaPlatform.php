@@ -11,7 +11,10 @@ use ThisIsDevelopment\GitManager\Models\GitPlatform;
 
 class GiteaPlatform extends GitPlatform
 {
-    protected GiteaClient $client;
+    /**
+     * @var GiteaClient
+     */
+    protected $client;
 
     public function __construct(array $config)
     {
@@ -82,7 +85,9 @@ class GiteaPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAll(GiteaTeam::class, "/orgs/{$namespace}/teams", $this),
-            static fn(GitTeamInterface $team) => ($team->name !== 'Owners')
+            static function (GitTeamInterface $team) {
+                return ($team->name !== 'Owners');
+            }
         );
     }
 

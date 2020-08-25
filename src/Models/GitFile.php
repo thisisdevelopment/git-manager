@@ -8,16 +8,28 @@ use ThisIsDevelopment\GitManager\Contracts\GitRepositoryInterface;
 
 abstract class GitFile extends AbstractGitModel implements GitFileInterface
 {
-    protected static array $properties = [
+    /**
+     * @var array|string[]
+     */
+    protected static $properties = [
         'file',
         'contents',
         'exists',
     ];
-    protected static array $updatable = [
+    /**
+     * @var array|bool[]
+     */
+    protected static $updatable = [
         'contents' => true,
     ];
-    protected GitBranchInterface $branch;
-    protected GitRepositoryInterface $repository;
+    /**
+     * @var GitBranchInterface
+     */
+    protected $branch;
+    /**
+     * @var GitRepositoryInterface
+     */
+    protected $repository;
 
     public function __construct(GitBranchInterface $branch, array $properties)
     {

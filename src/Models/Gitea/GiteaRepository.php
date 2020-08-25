@@ -13,8 +13,14 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GiteaRepository extends GitRepository
 {
-    protected GiteaClient $client;
-    protected GitPlatformInterface $platform;
+    /**
+     * @var GiteaClient
+     */
+    protected $client;
+    /**
+     * @var GitPlatformInterface
+     */
+    protected $platform;
 
     public function __construct(GiteaClient $client, GiteaPlatform $platform, array $properties)
     {

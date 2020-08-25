@@ -7,14 +7,23 @@ use ThisIsDevelopment\GitManager\Contracts\GitRepositoryInterface;
 
 abstract class GitBranch extends AbstractGitModel implements GitBranchInterface
 {
-    protected static array $properties = [
+    /**
+     * @var array|string[]
+     */
+    protected static $properties = [
         'name',
     ];
-    protected static array $updatable = [
+    /**
+     * @var array|bool[]
+     */
+    protected static $updatable = [
         'name' => true,
         'ref' => true,
     ];
-    protected GitRepositoryInterface $repository;
+    /**
+     * @var GitRepositoryInterface
+     */
+    protected $repository;
 
     public function __construct(GitRepositoryInterface $repository, array $properties)
     {

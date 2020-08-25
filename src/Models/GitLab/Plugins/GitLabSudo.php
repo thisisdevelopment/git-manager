@@ -8,7 +8,10 @@ use Psr\Http\Message\RequestInterface;
 
 class GitLabSudo implements Plugin
 {
-    protected ?int $sudo;
+    /**
+     * @var int|null
+     */
+    protected $sudo;
 
     public function __construct(?int $userId)
     {

@@ -11,8 +11,14 @@ use ThisIsDevelopment\GitManager\Models\GitUser;
 
 class GitLabUser extends GitUser
 {
-    protected GitLabClient $client;
-    protected GitLabPlatform $platform;
+    /**
+     * @var GitLabClient
+     */
+    protected $client;
+    /**
+     * @var GitLabPlatform
+     */
+    protected $platform;
 
     public function __construct(GitLabClient $client, GitLabPlatform $platform, array $properties)
     {

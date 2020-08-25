@@ -15,7 +15,10 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GitLabPlatform extends GitPlatform
 {
-    protected GitLabClient $client;
+    /**
+     * @var GitLabClient
+     */
+    protected $client;
 
     public function __construct(array $config)
     {
@@ -50,7 +53,9 @@ class GitLabPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAllModelInstances(GitLabClient::TYPE_PROJECTS, $this),
-            static fn($repo) => $repo->namespace === $namespace
+            static function ($repo) use ($namespace) {
+                return $repo->namespace === $namespace;
+            }
         );
     }
 
@@ -159,7 +164,9 @@ class GitLabPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAllModelInstances(GitLabClient::TYPE_GROUPS, $this),
-            fn($team) => $team->namespace === $namespace
+            function ($team) use ($namespace) {
+                return $team->namespace === $namespace;
+            }
         );
     }
 

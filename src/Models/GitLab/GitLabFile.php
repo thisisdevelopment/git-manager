@@ -8,9 +8,18 @@ use ThisIsDevelopment\GitManager\Models\GitFile;
 
 class GitLabFile extends GitFile
 {
-    protected GitLabClient $client;
-    protected GitLabBranch $branch;
-    protected GitLabRepository $repository;
+    /**
+     * @var GitLabClient
+     */
+    protected $client;
+    /**
+     * @var GitLabBranch
+     */
+    protected $branch;
+    /**
+     * @var GitLabRepository
+     */
+    protected $repository;
 
     public function __construct(GitLabClient $client, GitLabBranch $branch, array $properties)
     {

@@ -8,7 +8,10 @@ use ThisIsDevelopment\GitManager\Models\GitUser;
 
 class GiteaUser extends GitUser
 {
-    protected GiteaClient $client;
+    /**
+     * @var GiteaClient
+     */
+    protected $client;
 
     protected function mapProperties(array $properties)
     {
@@ -55,7 +58,9 @@ class GiteaUser extends GitUser
         try {
             return array_filter(
                 $this->client->getAll(GiteaTeam::class, "/user/teams", $this->platform),
-                static fn(GitTeamInterface $team) => ($team->name !== 'Owners')
+                static function (GitTeamInterface $team) {
+                    return ($team->name !== 'Owners');
+                }
             );
         } finally {
             $this->client->sudo(null);

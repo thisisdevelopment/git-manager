@@ -6,7 +6,10 @@ use ThisIsDevelopment\GitManager\Models\GitFile;
 
 class GiteaFile extends GitFile
 {
-    protected GiteaClient $client;
+    /**
+     * @var GiteaClient
+     */
+    protected $client;
 
     public function __construct(GiteaClient $client, GiteaBranch $branch, array $properties)
     {

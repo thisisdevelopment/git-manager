@@ -15,11 +15,26 @@ use ThisIsDevelopment\GitManager\Models\GitRepository;
 
 class GitLabRepository extends GitRepository
 {
-    protected GitLabClient $client;
-    protected GitPlatformInterface $platform;
-    protected array $groupAccess;
-    protected string $ownerType;
-    protected int $ownerId;
+    /**
+     * @var GitLabClient
+     */
+    protected $client;
+    /**
+     * @var GitPlatformInterface
+     */
+    protected $platform;
+    /**
+     * @var array|mixed
+     */
+    protected $groupAccess;
+    /**
+     * @var string
+     */
+    protected $ownerType;
+    /**
+     * @var int|mixed
+     */
+    protected $ownerId;
 
     public function __construct(GitLabClient $client, GitLabPlatform $platform, array $properties)
     {

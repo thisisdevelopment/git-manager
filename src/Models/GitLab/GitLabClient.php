@@ -34,7 +34,10 @@ class GitLabClient extends Client
     public const VISIBILITY_INTERNAL = 'internal';
     public const VISIBILITY_PUBLIC = 'public';
 
-    protected Builder $gitlabHttpClientBuilder;
+    /**
+     * @var Builder
+     */
+    protected $gitlabHttpClientBuilder;
 
     public function __construct()
     {

@@ -8,7 +8,10 @@ use ThisIsDevelopment\GitManager\Models\GitTeam;
 
 class GiteaTeam extends GitTeam
 {
-    protected GiteaClient $client;
+    /**
+     * @var GiteaClient
+     */
+    protected $client;
 
     public function __construct(GiteaClient $client, GiteaPlatform $platform, array $properties)
     {

@@ -9,10 +9,22 @@ use ThisIsDevelopment\GitManager\Exceptions\GitException;
 
 class GiteaClient
 {
-    protected ClientInterface $httpClient;
-    protected string $token = '';
-    protected string $url = '';
-    protected ?string $sudo = null;
+    /**
+     * @var ClientInterface
+     */
+    protected $httpClient;
+    /**
+     * @var string
+     */
+    protected $token = '';
+    /**
+     * @var string
+     */
+    protected $url = '';
+    /**
+     * @var string|null
+     */
+    protected $sudo = null;
 
     protected function call($method, $url, $body = null)
     {
@@ -71,12 +83,16 @@ class GiteaClient
 
     public function getAll($class, $url, $parent)
     {
-        return array_map(fn($data) => new $class($this, $parent, $data), $this->call('GET', $url));
+        return array_map(function ($data) use ($class, $parent) {
+            return new $class($this, $parent, $data);
+        }, $this->call('GET', $url));
     }
 
     public function getFirst($class, $url, $parent)
     {
-        return array_map(fn($data) => new $class($this, $parent, $data), $this->call('GET', $url)['data']);
+        return array_map(function ($data) use ($class, $parent) {
+            return new $class($this, $parent, $data);
+        }, $this->call('GET', $url)['data']);
     }
 
     public function get($class, $url, $parent)

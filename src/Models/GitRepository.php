@@ -8,7 +8,10 @@ use ThisIsDevelopment\GitManager\Contracts\GitRepositoryInterface;
 
 abstract class GitRepository extends AbstractGitModel implements GitRepositoryInterface
 {
-    protected static array $properties = [
+    /**
+     * @var array|string[]
+     */
+    protected static $properties = [
         'id',
         'name',
         'description',
@@ -16,11 +19,17 @@ abstract class GitRepository extends AbstractGitModel implements GitRepositoryIn
         'clone_url_ssh',
         'clone_url_http',
     ];
-    protected static array $updatable = [
+    /**
+     * @var array|bool[]
+     */
+    protected static $updatable = [
         'name' => true,
         'description' => false,
     ];
-    protected GitPlatformInterface $platform;
+    /**
+     * @var GitPlatformInterface
+     */
+    protected $platform;
 
     public function __construct(GitPlatformInterface $platform, array $properties)
     {

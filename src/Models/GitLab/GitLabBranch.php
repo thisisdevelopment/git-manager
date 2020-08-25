@@ -9,7 +9,10 @@ use ThisIsDevelopment\GitManager\Models\GitBranch;
 
 class GitLabBranch extends GitBranch
 {
-    protected GitLabClient $client;
+    /**
+     * @var GitLabClient
+     */
+    protected $client;
 
     public function __construct(GitLabClient $client, GitLabRepository $repository, array $properties)
     {
