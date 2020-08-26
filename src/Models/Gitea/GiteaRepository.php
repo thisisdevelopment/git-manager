@@ -158,11 +158,11 @@ class GiteaRepository extends GitRepository
         return $this->client->getAll(GiteaTag::class, "/repos/{$owner}/{$repo}/tags", $this);
     }
 
-    public function getTag(string $name): GitTagInterface
+    public function getTag(string $name): ?GitTagInterface
     {
         $owner = $this->namespace;
         $repo = $this->platform->normalizeRepoPath($this->name);
 
-        return $this->client->get(GiteaTag::class, "/repos/{$owner}/{$repo}/git/refs/tags/{$name}", $this);
+        return $this->client->getFirst(GiteaTag::class, "/repos/{$owner}/{$repo}/git/refs/tags/{$name}", $this);
     }
 }

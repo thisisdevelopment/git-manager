@@ -28,17 +28,15 @@ class GiteaTag extends AbstractGitModel implements GitTagInterface
         $this->client = $client;
         $this->repository = $repository;
 
-        count(array_filter(array_keys($properties), 'is_string')) > 0
-            ? $this->mapTagProperties($properties)
-            : $this->mapRefProperties($properties);
+        isset($properties['ref'])
+            ? $this->mapRefProperties($properties)
+            : $this->mapTagProperties($properties);
 
         $this->hydrate($properties);
     }
 
     private function mapRefProperties(array &$properties): void
     {
-        $properties = $properties[0];
-
         $properties['name'] = str_replace('refs/tags/', '', $properties['ref']);
         $properties['commitHash'] = $properties['object']['sha'];
     }

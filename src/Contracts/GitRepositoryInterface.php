@@ -65,5 +65,5 @@ interface GitRepositoryInterface
      */
     public function getTagList(): array;
 
-    public function getTag(string $name): GitTagInterface;
+    public function getTag(string $name): ?GitTagInterface;
 }

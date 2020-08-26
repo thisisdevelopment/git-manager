@@ -353,7 +353,7 @@ class GitLabRepository extends GitRepository
         return $this->client->tags()->all($this->id);
     }
 
-    public function getTag(string $name): GitTagInterface
+    public function getTag(string $name): ?GitTagInterface
     {
         return $this->client->tags()->show($this->id, $name);
     }
