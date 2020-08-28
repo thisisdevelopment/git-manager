@@ -83,16 +83,18 @@ class GiteaClient
 
     public function getAll($class, $url, $parent)
     {
+        $call = $this->call('GET', $url);
+
         return array_map(function ($data) use ($class, $parent) {
             return new $class($this, $parent, $data);
-        }, $this->call('GET', $url));
+        }, isset($call['data']) ? $call['data'] : $call);
     }
 
     public function getFirst($class, $url, $parent)
     {
-        return array_map(function ($data) use ($class, $parent) {
-            return new $class($this, $parent, $data);
-        }, $this->call('GET', $url)['data']);
+        $all = $this->getAll($class, $url, $parent);
+
+        return array_shift($all);
     }
 
     public function get($class, $url, $parent)

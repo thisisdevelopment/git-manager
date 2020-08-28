@@ -59,4 +59,11 @@ interface GitRepositoryInterface
     public function transferTo(GitOwnerInterface $owner): void;
 
     public function runCICD(string $commitRef, array $variables = []): void;
+
+    /**
+     * @return GitTagInterface[]
+     */
+    public function getTagList(): array;
+
+    public function getTag(string $name): ?GitTagInterface;
 }
