@@ -53,14 +53,16 @@ class GitLabClient extends Client
 
     public function getModelInstance($type, $id, $parent)
     {
-        return $this->makeModelForType($type, $this->api($type)->show($id), $parent);
+        $strictId = is_numeric($id) ? (int) $id : (string) $id;
+
+        return $this->makeModelForType($type, $this->$type()->show($strictId), $parent);
     }
 
     public function getAllData($api, $method = 'all', $methodParameters = [])
     {
         try {
             $pager = new ResultPager($this);
-            return $pager->fetchAll($this->api($api), $method, $methodParameters);
+            return $pager->fetchAll($this->$api(), $method, $methodParameters);
         } catch (ExceptionInterface $e) {
             throw new GitException(
                 "Unable to fetch all data for {$api}->{$method}: {$e->getMessage()}", $e->getCode(), $e
@@ -76,7 +78,7 @@ class GitLabClient extends Client
         $methodParameters = []
     ): array {
         $res = [];
-        foreach ($this->getAllData($api ?? $type, $method, $methodParameters) as $user) {
+        foreach ($this->getAllData($type, $method, $methodParameters) as $user) {
             $res[] = $this->makeModelForType($type, $user, $parent);
         }
         return $res;
@@ -84,7 +86,7 @@ class GitLabClient extends Client
 
     public function addModelInstance($type, $requiredProperties, $extraProperties = null, $parent = null)
     {
-        $api = $this->api($type);
+        $api = $this->$type();
         $params = $requiredProperties;
         if ($extraProperties) {
             $params[] = $extraProperties;
