@@ -11,6 +11,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitWebHookInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
 use ThisIsDevelopment\GitManager\Models\GitRepository;
 
@@ -350,11 +351,55 @@ class GitLabRepository extends GitRepository
 
     public function getTagList(): array
     {
-        return $this->client->tags()->all($this->id);
+        $tags = $this->client->tags()->all($this->id);
+        $gitTags = [];
+
+        foreach ($tags as $tag) {
+            $gitTags[] = new GitLabTag($this->client, $this, $tag);
+        }
+
+        return $gitTags;
     }
 
     public function getTag(string $name): ?GitTagInterface
     {
-        return $this->client->tags()->show($this->id, $name);
+        return new GitLabTag($this->client, $this, $this->client->tags()->show($this->id, $name));
+    }
+
+    public function getWebHookList(): array
+    {
+        $res = $this->client->projects()->hooks($this->id);
+
+        $hooks = [];
+
+        foreach ($res as $hook) {
+           $hooks[] = new GitLabWebHook($this->client, $this, $hook);
+        }
+
+        return $hooks;
+    }
+
+    public function getWebHook(int $id): GitWebHookInterface
+    {
+        $res = $this->client->projects()->hook($this->id, $id);
+
+        return new GitLabWebHook($this->client, $this, $res);
+    }
+
+    public function addWebHook(string $callbackUri, $parameters = []): GitWebHookInterface
+    {
+        $res = $this->client->projects()->addHook($this->id, $callbackUri, $parameters);
+
+        return new GitLabWebHook($this->client, $this, $res);
+    }
+
+    public function editWebHook(int $id, array $parameters = []): void
+    {
+        $this->client->projects()->updateHook($this->id, $id, $parameters);
+    }
+
+    public function deleteWebHook(int $id): void
+    {
+        $this->client->projects()->removeHook($this->id, $id);
     }
 }
