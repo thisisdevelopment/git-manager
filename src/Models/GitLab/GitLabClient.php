@@ -1,13 +1,13 @@
 <?php
-namespace ThisIsDevelopment\GitManager\Models\Gitlab;
+namespace ThisIsDevelopment\GitManager\Models\GitLab;
 
 use Gitlab\Client;
 use Gitlab\Exception\ExceptionInterface;
 use Gitlab\HttpClient\Builder;
 use Gitlab\ResultPager;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
-use ThisIsDevelopment\GitManager\Models\Gitlab\Plugins\GitLabLog;
-use ThisIsDevelopment\GitManager\Models\Gitlab\Plugins\GitLabSudo;
+use ThisIsDevelopment\GitManager\Models\GitLab\Plugins\GitLabLog;
+use ThisIsDevelopment\GitManager\Models\GitLab\Plugins\GitLabSudo;
 
 class GitLabClient extends Client
 {

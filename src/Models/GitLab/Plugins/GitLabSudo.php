@@ -1,6 +1,6 @@
 <?php
 
-namespace ThisIsDevelopment\GitManager\Models\Gitlab\Plugins;
+namespace ThisIsDevelopment\GitManager\Models\GitLab\Plugins;
 
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;

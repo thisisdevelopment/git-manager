@@ -1,6 +1,6 @@
 <?php
 
-namespace ThisIsDevelopment\GitManager\Models\Gitlab;
+namespace ThisIsDevelopment\GitManager\Models\GitLab;
 
 use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Models\AbstractGitModel;

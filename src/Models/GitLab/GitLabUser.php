@@ -1,6 +1,6 @@
 <?php
 
-namespace ThisIsDevelopment\GitManager\Models\Gitlab;
+namespace ThisIsDevelopment\GitManager\Models\GitLab;
 
 use Gitlab\Exception\ExceptionInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitRepositoryInterface;
