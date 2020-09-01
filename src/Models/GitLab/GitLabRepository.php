@@ -351,49 +351,30 @@ class GitLabRepository extends GitRepository
 
     public function getTagList(): array
     {
-        $tags = $this->client->tags()->all($this->id);
-        $gitTags = [];
-
-        foreach ($tags as $tag) {
-            $gitTags[] = new GitLabTag($this->client, $this, $tag);
-        }
-
-        return $gitTags;
+        return $this->client->getAllModelInstances(GitLabTag::class, $this);
     }
 
     public function getTag(string $name): ?GitTagInterface
     {
-        return new GitLabTag($this->client, $this, $this->client->tags()->show($this->id, $name));
+        return $this->client->getModelInstance(GitLabTag::class, $name, $this);
     }
 
     public function getWebHookList(): array
     {
-        $res = $this->client->projects()->hooks($this->id);
-
-        $hooks = [];
-
-        foreach ($res as $hook) {
-           $hooks[] = new GitLabWebHook($this->client, $this, $hook);
-        }
-
-        return $hooks;
+        return $this->client->getAllModelInstances(GitLabWebHook::class, $this);
     }
 
     public function getWebHook(int $id): GitWebHookInterface
     {
-        $res = $this->client->projects()->hook($this->id, $id);
-
-        return new GitLabWebHook($this->client, $this, $res);
+        return $this->client->getModelInstance(GitLabWebHook::class, $id, $this);
     }
 
     public function addWebHook(string $callbackUri): GitWebHookInterface
     {
-        $res = $this->client->projects()->addHook($this->id, $callbackUri, [
+        return $this->client->addModelInstance(GitLabWebHook::class, $callbackUri, [
             'push_events' => true,
             'tag_push_events' => true,
         ]);
-
-        return new GitLabWebHook($this->client, $this, $res);
     }
 
     public function deleteWebHook(int $id): void
