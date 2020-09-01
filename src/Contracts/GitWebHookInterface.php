@@ -3,10 +3,10 @@
 namespace ThisIsDevelopment\GitManager\Contracts;
 
 /**
- * @property-read string $type
+ * @property-read string $id
+ * @property-read string $url
  */
 interface GitWebHookInterface
 {
-    public const EVENT_PUSH = 'event_push';
-    public const EVENT_PUSH_TAG = 'event_push_tag';
+
 }

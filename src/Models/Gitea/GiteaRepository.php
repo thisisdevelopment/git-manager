@@ -183,20 +183,23 @@ class GiteaRepository extends GitRepository
         return $this->client->getFirst(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this);
     }
 
-    public function addWebHook(string $callbackUri, array $parameters = []): GitWebHookInterface
+    public function addWebHook(string $callbackUri): GitWebHookInterface
     {
         $owner = $this->namespace;
         $repo = $this->platform->normalizeRepoPath($this->name);
 
-        return $this->client->post(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this, $parameters);
-    }
-
-    public function editWebHook(int $id, array $parameters = []): void
-    {
-        $owner = $this->namespace;
-        $repo = $this->platform->normalizeRepoPath($this->name);
-
-        $this->client->patch("/repos/{$owner}/{$repo}/hooks/{$id}", $parameters);
+        return $this->client->post(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this, [
+            'type' => 'gitea',
+            'config' => [
+                'url' => $callbackUri,
+                'content_type' => 'json',
+            ],
+            'events' => [
+                'create',
+                'delete',
+                'push',
+            ],
+        ]);
     }
 
     public function deleteWebHook(int $id): void

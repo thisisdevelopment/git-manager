@@ -15,6 +15,13 @@ class GitLabWebHook extends AbstractGitModel implements GitWebHookInterface
      * @var GitLabRepository
      */
     private $repository;
+    /**
+     * @var array|string[]
+     */
+    protected static $properties = [
+        'id',
+        'url',
+    ];
 
     public function __construct(GitLabClient $client, GitLabRepository $repository, array $properties)
     {

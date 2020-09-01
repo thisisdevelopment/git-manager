@@ -74,9 +74,7 @@ interface GitRepositoryInterface
 
     public function getWebHook(int $id): ?GitWebHookInterface;
 
-    public function addWebHook(string $callbackUri, array $events = []): GitWebHookInterface;
-
-    public function editWebHook(int $id, array $events = []): void;
+    public function addWebHook(string $callbackUri): GitWebHookInterface;
 
     public function deleteWebHook(int $id): void;
 }

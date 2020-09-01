@@ -386,16 +386,14 @@ class GitLabRepository extends GitRepository
         return new GitLabWebHook($this->client, $this, $res);
     }
 
-    public function addWebHook(string $callbackUri, $parameters = []): GitWebHookInterface
+    public function addWebHook(string $callbackUri): GitWebHookInterface
     {
-        $res = $this->client->projects()->addHook($this->id, $callbackUri, $parameters);
+        $res = $this->client->projects()->addHook($this->id, $callbackUri, [
+            'push_events' => true,
+            'tag_push_events' => true,
+        ]);
 
         return new GitLabWebHook($this->client, $this, $res);
-    }
-
-    public function editWebHook(int $id, array $parameters = []): void
-    {
-        $this->client->projects()->updateHook($this->id, $id, $parameters);
     }
 
     public function deleteWebHook(int $id): void
