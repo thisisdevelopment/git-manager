@@ -374,7 +374,7 @@ class GitLabRepository extends GitRepository
         return $this->client->addModelInstance(GitLabWebHook::class, $callbackUri, [
             'push_events' => true,
             'tag_push_events' => true,
-        ]);
+        ], $this);
     }
 
     public function deleteWebHook(int $id): void
