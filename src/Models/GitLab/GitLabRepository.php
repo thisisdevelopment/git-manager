@@ -11,6 +11,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitWebHookInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
 use ThisIsDevelopment\GitManager\Models\GitRepository;
 
@@ -350,11 +351,34 @@ class GitLabRepository extends GitRepository
 
     public function getTagList(): array
     {
-        return $this->client->tags()->all($this->id);
+        return $this->client->getAllModelInstances(GitLabTag::class, $this);
     }
 
     public function getTag(string $name): ?GitTagInterface
     {
-        return $this->client->tags()->show($this->id, $name);
+        return $this->client->getModelInstance(GitLabTag::class, $name, $this);
+    }
+
+    public function getWebHookList(): array
+    {
+        return $this->client->getAllModelInstances(GitLabWebHook::class, $this);
+    }
+
+    public function getWebHook(int $id): GitWebHookInterface
+    {
+        return $this->client->getModelInstance(GitLabWebHook::class, $id, $this);
+    }
+
+    public function addWebHook(string $callbackUri): GitWebHookInterface
+    {
+        return $this->client->addModelInstance(GitLabWebHook::class, $callbackUri, [
+            'push_events' => true,
+            'tag_push_events' => true,
+        ], $this);
+    }
+
+    public function deleteWebHook(int $id): void
+    {
+        $this->client->projects()->removeHook($this->id, $id);
     }
 }

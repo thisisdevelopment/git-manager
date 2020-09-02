@@ -16,12 +16,16 @@ class GitLabClient extends Client
     public const TYPE_GROUPS = 'groups';
     public const TYPE_REPOSITORIES = 'repositories';
     public const TYPE_BRANCHES = 'branches';
+    public const TYPE_TAGS = 'tags';
+    public const TYPE_HOOKS = 'hooks';
 
     public const TYPE_MODEL_MAPPING = [
         self::TYPE_USERS    => GitLabUser::class,
         self::TYPE_PROJECTS => GitLabRepository::class,
         self::TYPE_GROUPS   => GitLabTeam::class,
         self::TYPE_BRANCHES => GitLabBranch::class,
+        self::TYPE_TAGS => GitLabTag::class,
+        self::TYPE_HOOKS => GitLabWebHook::class,
     ];
 
     public const ACCESS_LEVEL_GUEST = 10;

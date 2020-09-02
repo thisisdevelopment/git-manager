@@ -66,4 +66,15 @@ interface GitRepositoryInterface
     public function getTagList(): array;
 
     public function getTag(string $name): ?GitTagInterface;
+
+    /**
+     * @return GitWebHookInterface[]
+     */
+    public function getWebHookList(): array;
+
+    public function getWebHook(int $id): ?GitWebHookInterface;
+
+    public function addWebHook(string $callbackUri): GitWebHookInterface;
+
+    public function deleteWebHook(int $id): void;
 }

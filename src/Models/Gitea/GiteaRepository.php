@@ -9,6 +9,7 @@ use ThisIsDevelopment\GitManager\Contracts\GitPlatformInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTagInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitTeamInterface;
 use ThisIsDevelopment\GitManager\Contracts\GitUserInterface;
+use ThisIsDevelopment\GitManager\Contracts\GitWebHookInterface;
 use ThisIsDevelopment\GitManager\Exceptions\GitException;
 use ThisIsDevelopment\GitManager\Models\GitRepository;
 
@@ -164,5 +165,48 @@ class GiteaRepository extends GitRepository
         $repo = $this->platform->normalizeRepoPath($this->name);
 
         return $this->client->getFirst(GiteaTag::class, "/repos/{$owner}/{$repo}/git/refs/tags/{$name}", $this);
+    }
+
+    public function getWebHookList(): array
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        return $this->client->getAll(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this);
+    }
+
+    public function getWebHook(int $id): ?GitWebHookInterface
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        return $this->client->getFirst(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this);
+    }
+
+    public function addWebHook(string $callbackUri): GitWebHookInterface
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        return $this->client->post(GiteaWebHook::class, "/repos/{$owner}/{$repo}/hooks", $this, [
+            'type' => 'gitea',
+            'config' => [
+                'url' => $callbackUri,
+                'content_type' => 'json',
+            ],
+            'events' => [
+                'create',
+                'delete',
+                'push',
+            ],
+        ]);
+    }
+
+    public function deleteWebHook(int $id): void
+    {
+        $owner = $this->namespace;
+        $repo = $this->platform->normalizeRepoPath($this->name);
+
+        $this->client->delete("/repos/{$owner}/{$repo}/hooks/{$id}");
     }
 }
