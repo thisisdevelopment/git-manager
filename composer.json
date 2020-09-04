@@ -1,10 +1,10 @@
 {
     "name": "thisisdevelopment/git-manager",
-    "description": "",
+    "description": "Provides a uniform api to access and manage repositories / team / users for all major git platforms (github/gitlab/gitea/bitbucket)",
     "authors": [
         {
-            "name": "Robert van Geerenstein",
-            "email": "robert@thisisdevelopment.nl"
+            "name": "Eric de Ruiter",
+            "email": "eric@thisisdevelopment.nl"
         }
     ],
     "autoload": {
