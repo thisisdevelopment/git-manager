@@ -1,6 +1,7 @@
 {
     "name": "thisisdevelopment/git-manager",
     "description": "Provides a uniform api to access and manage repositories / team / users for all major git platforms (github/gitlab/gitea/bitbucket)",
+    "license": "MIT",
     "authors": [
         {
             "name": "Eric de Ruiter",
