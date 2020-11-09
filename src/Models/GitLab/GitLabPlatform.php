@@ -103,7 +103,9 @@ class GitLabPlatform extends GitPlatform
             );
 
             if ($owner instanceof GitTeamInterface) {
-                $repo->grantTeamAccess($owner);
+                if ($owner->id !== $parent) {
+                    $repo->grantTeamAccess($owner);
+                }
             } elseif ($owner->id !== $currentUser->id) {
                 $repo->grantUserAccess($owner);
             }
@@ -195,7 +197,7 @@ class GitLabPlatform extends GitPlatform
             $name = basename($path);
             $properties['name'] = $name;
 
-            $parent = $this->findOrCreateGroup($prefix);
+            $parent = ($prefix !== '.') ? $this->findOrCreateGroup($prefix) : null;
 
             GitLabTeam::validateAdd($properties);
             return $this->client->addModelInstance(
