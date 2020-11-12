@@ -63,7 +63,7 @@ class GitLabPlatform extends GitPlatform
     {
         $namespace = $namespace ?? $this->defaultRepoNamespace;
         if (!is_numeric($idOrName) && $namespace !== '') {
-            $idOrName = $this->defaultRepoNamespace.'/'.$idOrName;
+            $idOrName = $namespace.'/'.$idOrName;
         }
 
         try {
