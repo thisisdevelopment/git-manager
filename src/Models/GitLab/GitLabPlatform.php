@@ -143,6 +143,16 @@ class GitLabPlatform extends GitPlatform
         return $this->client->getModelInstance(GitLabClient::TYPE_USERS, $idOrName, $this);
     }
 
+    public function getUserAsAdmin(string $idOrName): GitUserInterface
+    {
+        $this->client->sudo(data_get($this->client->users()->me(), 'id'));
+        try {
+            return $this->client->getModelInstance(GitLabClient::TYPE_USERS, $idOrName, $this);
+        } finally {
+            $this->client->sudo(null);
+        }
+    }
+
     public function addUser(array $properties): GitUserInterface
     {
         GitLabUser::validateAdd($properties);

@@ -17,6 +17,9 @@ class GiteaUser extends GitUser
     {
         $properties['name'] = $properties['full_name'] ?: $properties['login'];
         $properties['username'] = $properties['login'];
+        $properties['last_sign_in_at'] = $properties['last_login'];
+        $properties['last_activity_on'] = $properties['last_login'];
+
         return $properties;
     }
 

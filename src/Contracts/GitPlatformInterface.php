@@ -31,6 +31,8 @@ interface GitPlatformInterface
 
     public function getUser(string $idOrName): GitUserInterface;
 
+    public function getUserAsAdmin(string $idOrName): GitUserInterface;
+
     public function addUser(array $properties): GitUserInterface;
 
     public function getCurrentUser(): GitUserInterface;

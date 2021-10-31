@@ -18,7 +18,10 @@ abstract class GitUser extends AbstractGitModel implements GitUserInterface
         'email',
         'description',
         'created_at',
+        'last_sign_in_at',
+        'last_activity_on',
     ];
+
     /**
      * @var bool[]
      */
@@ -28,6 +31,7 @@ abstract class GitUser extends AbstractGitModel implements GitUserInterface
         'email' => true,
         'description' => false,
     ];
+
     /**
      * @var GitPlatformInterface|GitPlatform
      */
