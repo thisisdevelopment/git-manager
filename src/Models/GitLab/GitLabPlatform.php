@@ -177,7 +177,7 @@ class GitLabPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAllModelInstances(GitLabClient::TYPE_GROUPS, $this),
-            function ($team) use ($namespace) {
+            static function ($team) use ($namespace) {
                 return $team->namespace === $namespace;
             }
         );
