@@ -22,9 +22,10 @@ class GitLabPlatform extends GitPlatform
 
     public function __construct(array $config)
     {
-        $this->client = (new GitLabClient())
-            ->setUrl($config['url'])
-            ->authenticate($config['auth'], GitLabClient::AUTH_HTTP_TOKEN);
+        $this->client = new GitLabClient();
+
+        $this->client->setUrl($config['url']);
+        $this->client->authenticate($config['auth'], GitLabClient::AUTH_HTTP_TOKEN);
 
         parent::__construct($config);
     }
