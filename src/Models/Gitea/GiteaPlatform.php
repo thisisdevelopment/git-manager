@@ -64,18 +64,18 @@ class GiteaPlatform extends GitPlatform
     {
         if (is_numeric($idOrName)) {
             return $this->client->getFirst(GiteaUser::class, "/users/search?uid={$idOrName}", $this);
-        } else {
-            return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
         }
+
+        return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
     }
 
     public function getUserAsAdmin(string $idOrName): GitUserInterface
     {
         if (is_numeric($idOrName)) {
             return $this->client->getFirst(GiteaUser::class, "/users/search?uid={$idOrName}", $this);
-        } else {
-            return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
         }
+
+        return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
     }
 
     public function addUser(array $properties): GitUserInterface
