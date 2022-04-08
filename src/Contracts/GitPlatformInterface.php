@@ -27,7 +27,7 @@ interface GitPlatformInterface
      * @param bool $onlyActive
      * @return GitUserInterface[]
      */
-    public function getUserList($onlyActive = true): array;
+    public function getUserList(bool $onlyActive = true): array;
 
     public function getUser(string $idOrName): GitUserInterface;
 

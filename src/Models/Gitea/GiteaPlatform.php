@@ -54,7 +54,7 @@ class GiteaPlatform extends GitPlatform
         return $this->client->post(GiteaRepository::class, "/org/{$namespace}/repos", $this, $properties);
     }
 
-    public function getUserList($onlyActive = true): array
+    public function getUserList(bool $onlyActive = true): array
     {
         $namespace = $this->defaultTeamNamespace;
         return $this->client->getAll(GiteaUser::class, "/orgs/{$namespace}/members", $this);

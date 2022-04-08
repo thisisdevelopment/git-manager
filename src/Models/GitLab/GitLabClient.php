@@ -60,7 +60,7 @@ class GitLabClient extends Client
         return $this->makeModelForType($type, $this->{$type}()->show($id), $parent);
     }
 
-    public function getAllData($api, $method = 'all', $methodParameters = [])
+    public function getAllData($api, $method = 'all', $methodParameters = []): array
     {
         try {
             return (new ResultPager($this))->fetchAll($this->{$api}(), $method, $methodParameters);

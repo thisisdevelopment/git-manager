@@ -119,7 +119,7 @@ class GitLabPlatform extends GitPlatform
         }
     }
 
-    public function getUserList($onlyActive = true): array
+    public function getUserList(bool $onlyActive = true): array
     {
         $filter = [];
         if ($onlyActive) {
