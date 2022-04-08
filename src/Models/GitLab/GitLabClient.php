@@ -63,8 +63,7 @@ class GitLabClient extends Client
     public function getAllData($api, $method = 'all', $methodParameters = [])
     {
         try {
-            $pager = new ResultPager($this);
-            return $pager->fetchAll($this->{$api}(), $method, $methodParameters);
+            return (new ResultPager($this))->fetchAll($this->{$api}(), $method, $methodParameters);
         } catch (ExceptionInterface $e) {
             throw new GitException(
                 "Unable to fetch all data for {$api}->{$method}: {$e->getMessage()}", $e->getCode(), $e
