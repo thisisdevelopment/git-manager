@@ -54,7 +54,7 @@ class GiteaPlatform extends GitPlatform
         return $this->client->post(GiteaRepository::class, "/org/{$namespace}/repos", $this, $properties);
     }
 
-    public function getUserList($onlyActive = true): array
+    public function getUserList(bool $onlyActive = true): array
     {
         $namespace = $this->defaultTeamNamespace;
         return $this->client->getAll(GiteaUser::class, "/orgs/{$namespace}/members", $this);
@@ -64,18 +64,18 @@ class GiteaPlatform extends GitPlatform
     {
         if (is_numeric($idOrName)) {
             return $this->client->getFirst(GiteaUser::class, "/users/search?uid={$idOrName}", $this);
-        } else {
-            return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
         }
+
+        return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
     }
 
     public function getUserAsAdmin(string $idOrName): GitUserInterface
     {
         if (is_numeric($idOrName)) {
             return $this->client->getFirst(GiteaUser::class, "/users/search?uid={$idOrName}", $this);
-        } else {
-            return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
         }
+
+        return $this->client->get(GiteaUser::class, "/users/{$idOrName}", $this);
     }
 
     public function addUser(array $properties): GitUserInterface

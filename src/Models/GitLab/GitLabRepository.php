@@ -309,9 +309,9 @@ class GitLabRepository extends GitRepository
     {
         if ($this->ownerType === 'user') {
             return $this->platform->getUser($this->ownerId);
-        } else {
-            return $this->platform->getTeam($this->ownerId);
         }
+
+        return $this->platform->getTeam($this->ownerId);
     }
 
     public function transferTo(GitOwnerInterface $owner): void

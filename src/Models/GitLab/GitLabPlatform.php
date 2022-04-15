@@ -22,9 +22,10 @@ class GitLabPlatform extends GitPlatform
 
     public function __construct(array $config)
     {
-        $this->client = (new GitLabClient())
-            ->setUrl($config['url'])
-            ->authenticate($config['auth'], GitLabClient::AUTH_HTTP_TOKEN);
+        $this->client = new GitLabClient();
+
+        $this->client->setUrl($config['url']);
+        $this->client->authenticate($config['auth'], GitLabClient::AUTH_HTTP_TOKEN);
 
         parent::__construct($config);
     }
@@ -118,7 +119,7 @@ class GitLabPlatform extends GitPlatform
         }
     }
 
-    public function getUserList($onlyActive = true): array
+    public function getUserList(bool $onlyActive = true): array
     {
         $filter = [];
         if ($onlyActive) {
@@ -176,21 +177,21 @@ class GitLabPlatform extends GitPlatform
 
         return array_filter(
             $this->client->getAllModelInstances(GitLabClient::TYPE_GROUPS, $this),
-            function ($team) use ($namespace) {
+            static function ($team) use ($namespace) {
                 return $team->namespace === $namespace;
             }
         );
     }
 
-    public function getTeam(string $teamId, string $namespace = null): GitTeamInterface
+    public function getTeam(string $idOrName, string $namespace = null): GitTeamInterface
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
-        if (!is_numeric($teamId) && $namespace !== '') {
-            $teamId = "{$namespace}/{$teamId}";
+        if (!is_numeric($idOrName) && $namespace !== '') {
+            $idOrName = "{$namespace}/{$idOrName}";
         }
 
         try {
-            return $this->client->getModelInstance(GitLabClient::TYPE_GROUPS, $teamId, $this);
+            return $this->client->getModelInstance(GitLabClient::TYPE_GROUPS, $idOrName, $this);
         } catch (ExceptionInterface $e) {
             throw new GitException("Unable to get team: {$e->getMessage()}", $e->getCode(), $e);
         }
