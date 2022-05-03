@@ -334,9 +334,11 @@ class GitLabRepository extends GitRepository
         try {
             $tmp = [];
             foreach ($variables as $key => $value) {
-                $tmp[]['key'] = $key;
-                $tmp[]['variable_type'] = 'env_var';
-                $tmp[]['value'] = $value;
+                $tmp[] = [
+                    'key' => $key,
+                    'variable_type' => 'env_var',
+                    'value' => $value,
+                ];
             }
 
             $this->client->projects()->createPipeline($this->id, $commitRef, $tmp);
