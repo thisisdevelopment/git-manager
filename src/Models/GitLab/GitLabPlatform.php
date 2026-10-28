@@ -48,7 +48,7 @@ class GitLabPlatform extends GitPlatform
         }
     }
 
-    public function getRepositoryList(string $namespace = null): array
+    public function getRepositoryList(?string $namespace = null): array
     {
         $namespace = $namespace ?? $this->defaultRepoNamespace;
 
@@ -60,7 +60,7 @@ class GitLabPlatform extends GitPlatform
         );
     }
 
-    public function getRepository(string $idOrName, string $namespace = null): GitRepositoryInterface
+    public function getRepository(string $idOrName, ?string $namespace = null): GitRepositoryInterface
     {
         $namespace = $namespace ?? $this->defaultRepoNamespace;
         if (!is_numeric($idOrName) && $namespace !== '') {
@@ -171,7 +171,7 @@ class GitLabPlatform extends GitPlatform
         );
     }
 
-    public function getTeamList(string $namespace = null): array
+    public function getTeamList(?string $namespace = null): array
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
 
@@ -183,7 +183,7 @@ class GitLabPlatform extends GitPlatform
         );
     }
 
-    public function getTeam(string $idOrName, string $namespace = null): GitTeamInterface
+    public function getTeam(string $idOrName, ?string $namespace = null): GitTeamInterface
     {
         $namespace = $namespace ?? $this->defaultTeamNamespace;
         if (!is_numeric($idOrName) && $namespace !== '') {

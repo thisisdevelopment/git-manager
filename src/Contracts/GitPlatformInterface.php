@@ -19,7 +19,7 @@ interface GitPlatformInterface
      */
     public function getRepositoryList(?string $namespace = null): array;
 
-    public function getRepository(string $idOrName, string $namespace = null): GitRepositoryInterface;
+    public function getRepository(string $idOrName, ?string $namespace = null): GitRepositoryInterface;
 
     public function addRepository(array $properties, ?GitOwnerInterface $owner = null): GitRepositoryInterface;
 
@@ -43,7 +43,7 @@ interface GitPlatformInterface
      */
     public function getTeamList(?string $namespace = null): array;
 
-    public function getTeam(string $idOrName, string $namespace = null): GitTeamInterface;
+    public function getTeam(string $idOrName, ?string $namespace = null): GitTeamInterface;
 
     public function addTeam(array $properties): GitTeamInterface;
 }
